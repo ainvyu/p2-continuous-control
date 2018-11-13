@@ -1,6 +1,6 @@
 # Reacher
 
-![banana](resources/reacher_capture.2018-11-14 06_05_21.gif)
+![reacher](resources/reacher_capture.2018-11-14 06_05_21.gif)
 
 ## Project details
 
