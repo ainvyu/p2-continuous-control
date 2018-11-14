@@ -1,24 +1,56 @@
-# Learning Algorithm
-Basic PPO with Actor Critic algorithm were implemented and trained.
-
 The environment chose to learn 20 agents, the second version
 
-The layers and parameters used are shown below.
+![reacher](resources/play.gif)
 
-- Fully connected layer - input: 33 (state size) output: 512
-- Fully connected layer - input: 512 output 512
-- Fully connected layer - input: 64 output: (action size -> 4)
+# Learning Algorithm
+Basic PPO algorithm with Actor Critic model were implemented and trained.
+This model is composed of two networks of Actor Critic type because Continous Action Space is supposed to generate high variance.
 
-- Maximum steps per episode: 1000
-- Starting epsilion: 1.0
-- Ending epsilion: 0.01
-- Epsilion decay rate: 0.999
+Actor network takes an observation of the Unity Agent as an input and outputs an action.
+Critic network is used to compute advantage for state value estimation.
+
+# Model Architectures and Hyperparameters
+
+Actor passes the input it passes with no preprocessing and outputs 4 values that are the size of the action space.
+Critic is using compute advantages state value.
+
+Hyperparameters were adjusted based on ShangtongZhang's PPO Continuous (https://github.com/ShangtongZhang/DeepRL), which was introduced as the best practice in the lecture, until the score got better.
+
+The layers and hyperparameters used are shown below.
+
+## Actor
+
+- 3 Fully connected layer
+    - Fully connected layer - input: 33 (state size) output: 512
+    - Fully connected layer - input: 512 output 512
+    - Fully connected layer - input: 512 output: (action size -> 4)
+    - Each fully connected layer is activated by ReLU and The last one is tanh for make fitting -1~1
+
+## Critic
+
+- 3 Fully connected layer
+    - Fully connected layer - input: 33 (state size) output: 512
+    - Fully connected layer - input: 512 output 512
+    - Fully connected layer - input: 512 output: 1
+    - Each fully connected layer is activated by ReLU and The last one does not activate.
+    
+## Hyperparameters
+The all hyperparameters are specified in config.py.
+
+- Optimization epochs = 10
+- PPO ratio clip = 0.2
+- Rollout length = 2048
+- Entropy weight = 0.01
+- Gradient Clip = 5
+- Mini batch size = 128
+- Tau = 0.95
+- Discount = 0.99
 
 # Tuning Hyper parameter
 
 I was able to hold a mini batch size at 32 in the beginning, but I cannot exceed 30 points in every episode.
 I think it would be better to have a longer Observation time in a continuous environment. I increased to 128 and I could score 37 points.
-
+ 
 # Plot of Rewards
 ## PPO with Actor Critic
 
